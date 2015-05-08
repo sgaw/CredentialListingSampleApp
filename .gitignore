@@ -1,0 +1,16 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+shirleys-macbook-air:CredentialListingSampleApp sgaw$ echo '*.jar' >> .gitignore 
+shirleys-macbook-air:CredentialListingSampleApp sgaw$ cat .gitignore 
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+*.jar
+

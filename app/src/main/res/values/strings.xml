@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Credential Listing Sample App</string>
+    <string name="action_settings">Settings</string>
+    <string name="domain_suggest">mystubsite.com</string>
+    <string name="username_suggest">johndoe@gmail.com</string>
+    <string name="title_activity_credential_list">Credential List Activity</string>
+    <string name="hello_world">Hello world!</string>
+</resources>
