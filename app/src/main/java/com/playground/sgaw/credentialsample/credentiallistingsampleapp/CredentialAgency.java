@@ -2,6 +2,7 @@ package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
 
 import android.content.Context;
 import android.gesture.Prediction;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
  * Persists for the application lifecycle (independent of activities, fragments, etc.)
  */
 public class CredentialAgency {
+    private static final String TAG = "sgaw.CredentialAgency";
     private static CredentialAgency sCredentialAgency;
 
     private Context mAppContext; // Access to resources, storage, etc.
@@ -22,16 +24,19 @@ public class CredentialAgency {
     }
 
     public void init() {
+        Log.i(TAG, "init()");
         // TODO(sgaw): Fetch login credentials from file.
         for (int i = 0; i < 100; i++) {
             mCredentials.add(new Credential(String.format("example-%d.com", i)));
         }
     }
 
-    // Make collection of login credentials a singleton
+    // Singleton initialization and retrieval.
     public static CredentialAgency get(Context c) {
         if (sCredentialAgency == null) {
             sCredentialAgency = new CredentialAgency(c.getApplicationContext());
+
+            sCredentialAgency.init();
         }
         return sCredentialAgency;
     }
@@ -40,6 +45,11 @@ public class CredentialAgency {
         return mCredentials;
     }
 
-    // TODO(sgaw): Make a credential view that uses Collections2.filter(.., Predicate)
+    public Credential getCredential(int position) {
+        Log.i(TAG, String.format("getCredential(%d)", position));
+        return mCredentials.get(position);
+    }
+
+    // TODO(sgaw): Track a current credential collection view that uses Collections2.filter(.., Predicate)
     // Need to install Guava
 }

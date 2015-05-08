@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -22,13 +23,18 @@ public class CredentialFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_credential, container, false);
 
+        // TODO(sgaw): This all seems redundant to the RecyclerView.ViewHolder but there
+        // doesn't seem to be a shared parent ViewHolder...
         TextView textView = (TextView) rootView.findViewById(R.id.domain);
         textView.setText(mCredential.getDomain());
 
         textView = (TextView) rootView.findViewById(R.id.username);
         textView.setText(mCredential.getUsername());
 
-        // TODO(sgaw): Setup icon rendering.
+        if (mCredential.hasIcon()) {
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.icon);
+            imageView.setImageBitmap(mCredential.getIcon());
+        }
 
         return rootView;
     }

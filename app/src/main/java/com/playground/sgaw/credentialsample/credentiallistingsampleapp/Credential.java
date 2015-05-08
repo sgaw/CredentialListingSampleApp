@@ -13,6 +13,7 @@ public class Credential {
     public Credential(String domain) {
         // We can futz login info for now since we don't actually need it for the example.
         this.domain = domain;
+        this.icon = null;
     }
 
     public String getDomain() {
@@ -27,5 +28,14 @@ public class Credential {
 
     public String getUsername() {
         return DEFAULT_USERNAME;
+    }
+
+    public boolean hasIcon() {
+        return icon != null;
+    }
+
+    @Override
+    public String toString() {
+        return domain;
     }
 }

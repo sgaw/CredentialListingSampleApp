@@ -4,15 +4,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
-
 
 public class CredentialListActivity extends ActionBarActivity {
 
@@ -51,10 +52,9 @@ public class CredentialListActivity extends ActionBarActivity {
     }
 
     /**
-     * Fragment for viewing a listing of login credentials.c
+     * Fragment for viewing a listing of login credentials.
      */
     public static class PlaceholderFragment extends Fragment {
-        private ArrayList<Credential> mCredential;
 
         public PlaceholderFragment() {
         }
@@ -62,13 +62,20 @@ public class CredentialListActivity extends ActionBarActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            mCredential = CredentialAgency.get(getActivity()).getCredentials();
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_credential_list, container, false);
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.listing_view);
+
+            // TODO(sgaw): Be able to handle GridLinearLayoutManager versus LinearLayoutManager
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            RecyclerView.Adapter adapter = new CredentialListAdapter(
+                    CredentialAgency.get(getActivity()));
+            recyclerView.setAdapter(adapter);
             return rootView;
         }
     }
