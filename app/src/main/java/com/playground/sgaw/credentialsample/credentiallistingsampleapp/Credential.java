@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 public class Credential {
     private final static String DEFAULT_USERNAME = "test_user@fakedomain.com";
     private final String domain;
-    private Bitmap icon;
+    private final Bitmap icon;
 
     public Credential(String domain) {
         // We can futz login info for now since we don't actually need it for the example.
@@ -20,12 +20,6 @@ public class Credential {
         return domain;
     }
 
-    public Bitmap getIcon() {
-        return icon;
-    }
-
-    public void setIcon(Bitmap icon) { this.icon = icon; }
-
     public String getUsername() {
         return DEFAULT_USERNAME;
     }
@@ -34,8 +28,13 @@ public class Credential {
         return icon != null;
     }
 
+    public Bitmap getIcon() {
+        return icon;
+    }
+
     @Override
     public String toString() {
         return domain;
     }
 }
+

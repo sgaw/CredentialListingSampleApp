@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -15,48 +14,54 @@ import android.widget.TextView;
 public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAdapter.ViewHolder> {
     private static final String TAG = "CredentialListAdapter";
     private final CredentialAgency mCredentialAgency;
+    private final CredentialListener mCredentialListener;
 
-    public CredentialListAdapter(CredentialAgency credentialAgency) {
+    public CredentialListAdapter(CredentialAgency credentialAgency,
+                                 CredentialListener credentialListener) {
         this.mCredentialAgency = credentialAgency;
+        this.mCredentialListener = credentialListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_credential, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v, mCredentialListener);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bindCredential(mCredentialAgency.getCredential(position));
-
     }
 
     @Override
     public int getItemCount() {
-        Log.i(TAG, "getItemCount()");
         return mCredentialAgency.getCredentials().size();
     }
 
     /**
      * Manage the view to display a single credential.
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = "CredentialListAdapter.ViewHolder";
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private static final String TAG = "Adapter.ViewHolder";
         private final TextView mDomainTextView;
         private final TextView mUsernameTextView;
         private final ImageView mIconImageView;
 
         private Credential mCredential;
+        private CredentialListener mCredentialListener;
 
-        public ViewHolder(View v) {
+        public ViewHolder(View v, CredentialListener credentialListener) {
             super(v);
 
             mDomainTextView = (TextView) v.findViewById(R.id.domain);
             mUsernameTextView = (TextView) v.findViewById(R.id.username);
             mIconImageView = (ImageView) v.findViewById(R.id.icon);
+            mCredential = null;
+            mCredentialListener = credentialListener;
+
+            v.setOnClickListener(this);
         }
 
         // Each time we change the credential, update the view's content.
@@ -72,5 +77,12 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
             }
         }
 
+        @Override
+        public void onClick(View v) {
+            Log.i(TAG, "onClick(...)");
+            if (mCredential != null) {
+                mCredentialListener.onCredentialSelected(mCredential);
+            }
+        }
     }
 }

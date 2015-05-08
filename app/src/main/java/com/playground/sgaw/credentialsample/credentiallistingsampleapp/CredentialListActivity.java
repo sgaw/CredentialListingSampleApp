@@ -1,21 +1,14 @@
 package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.support.v7.widget.RecyclerView;
 
-import java.util.ArrayList;
-
-public class CredentialListActivity extends ActionBarActivity {
+public class CredentialListActivity extends ActionBarActivity implements CredentialListener {
+    private static final String TAG = "CredentialListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +16,7 @@ public class CredentialListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_fragment);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new CredentialListFragment())
                     .commit();
         }
     }
@@ -52,31 +45,16 @@ public class CredentialListActivity extends ActionBarActivity {
     }
 
     /**
-     * Fragment for viewing a listing of login credentials.
+     * Display the details of a specific credential.  For tablets, make this a dialog.
+     * For phones, make this another screen/activity.
+     *
+     * @param credential
      */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_credential_list, container, false);
-            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.listing_view);
-
-            // TODO(sgaw): Be able to handle GridLinearLayoutManager versus LinearLayoutManager
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-            RecyclerView.Adapter adapter = new CredentialListAdapter(
-                    CredentialAgency.get(getActivity()));
-            recyclerView.setAdapter(adapter);
-            return rootView;
-        }
+    @Override
+    public void onCredentialSelected(Credential credential) {
+        Log.i(TAG, String.format("onCredentialSelected(%s)", credential));
+        // TODO(sgaw): Add check to see if we are tablet or phone
+        Intent i = new Intent(this, CredentialActivity.class);
+        startActivity(i);
     }
 }
