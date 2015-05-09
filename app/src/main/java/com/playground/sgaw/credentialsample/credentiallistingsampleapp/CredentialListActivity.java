@@ -1,5 +1,6 @@
 package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 
 public class CredentialListActivity extends ActionBarActivity implements CredentialClickListener {
     private static final String TAG = "CredentialListActivity";
+    private static final String DIALOG_CREDENTIAL = "credential";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
     @Override
     public void onCredentialSelected(Credential credential) {
         Log.i(TAG, String.format("onCredentialSelected(%s)", credential));
-        // TODO(sgaw): Add check to see if we are tablet or phone
+
         if (findViewById(R.id.detailContainer) == null) {
             Log.i(TAG, "Detected phone");
             Intent i = new Intent(this, CredentialActivity.class);
@@ -61,6 +63,10 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
             startActivity(i);
         } else {
             Log.i(TAG, "Detected tablet");
+            FragmentManager fragmentManager = getFragmentManager();
+            CredentialFragment credentialFragment = CredentialFragment.newInstance(credential,
+                    true);
+            credentialFragment.show(fragmentManager, DIALOG_CREDENTIAL);
         }
     }
 }
