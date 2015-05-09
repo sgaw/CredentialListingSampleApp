@@ -17,8 +17,22 @@ import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Cre
  * Fragment for viewing a listing of login credentials.
  */
 public class CredentialListFragment extends Fragment {
+    public static final String EXTRA_SHOWS_GRID =
+            "com.playground.sgaw.credentialsample.credentiallistingsampleapp"
+                    + "CredentialListFragment.SHOWS_GRID";
     private static final String TAG = "CredentialListFragment";
     private static final int GRID_SPAN = 2;
+
+    public static CredentialListFragment newInstance(boolean doGridLayout) {
+        CredentialListFragment fragment = new CredentialListFragment();
+
+        Bundle args = new Bundle();
+        args.putBoolean(EXTRA_SHOWS_GRID, doGridLayout);
+        fragment.setArguments(args);
+        Log.i(TAG, String.format("EXTRA_SHOWS_GRID = %b", doGridLayout));
+
+        return fragment;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -42,12 +56,12 @@ public class CredentialListFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.listing_view);
 
         LinearLayoutManager layoutManager;
-        if (rootView.findViewById(R.id.detailContainer) == null) {
-            Log.i(TAG, "LinearLayoutManager");
-            layoutManager = new LinearLayoutManager(getActivity());
-        } else {
+        if (getArguments().getBoolean(EXTRA_SHOWS_GRID)) {
             Log.i(TAG, "GridLayoutManager");
             layoutManager = new GridLayoutManager(getActivity(), GRID_SPAN);
+        } else {
+            Log.i(TAG, "LinearLayoutManager");
+            layoutManager = new LinearLayoutManager(getActivity());
         }
         recyclerView.setLayoutManager(layoutManager);
 

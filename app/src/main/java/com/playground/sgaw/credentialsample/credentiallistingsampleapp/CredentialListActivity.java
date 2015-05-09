@@ -17,10 +17,13 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_credentiallisting);
+        setContentView(R.layout.activity_fragment);
         if (savedInstanceState == null) {
+            boolean doGridLayout = (findViewById(R.id.detailContainer) != null);
+
+            CredentialListFragment fragment = CredentialListFragment.newInstance(doGridLayout);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new CredentialListFragment())
+                    .add(R.id.container, fragment)
                     .commit();
         }
     }

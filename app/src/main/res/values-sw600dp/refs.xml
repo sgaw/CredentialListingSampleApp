@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- For tablets use an alternative layout -->
-<resources>
-    <item name="activity_credentiallisting" type="layout">@layout/activity_masterdetail</item>
-</resources>
