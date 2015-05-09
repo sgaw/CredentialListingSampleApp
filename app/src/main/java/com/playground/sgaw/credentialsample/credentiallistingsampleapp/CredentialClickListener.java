@@ -1,5 +1,7 @@
 package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
 
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
+
 /**
 * Listener interface for receiving credential selection events.
 */

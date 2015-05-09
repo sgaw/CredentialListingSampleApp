@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.CredentialAgency;
+
 /**
  * ViewAdapter for managing the user's login credentials
  */

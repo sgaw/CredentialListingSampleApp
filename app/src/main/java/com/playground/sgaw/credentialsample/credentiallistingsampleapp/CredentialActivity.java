@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.CredentialAgency;
+
 
 public class CredentialActivity extends Activity {
 

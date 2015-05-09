@@ -1,4 +1,4 @@
-package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
+package com.playground.sgaw.credentialsample.credentiallistingsampleapp.model;
 
 import android.graphics.Bitmap;
 

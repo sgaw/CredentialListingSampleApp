@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
+
 public class CredentialListActivity extends ActionBarActivity implements CredentialClickListener {
     private static final String TAG = "CredentialListActivity";
     private static final String DIALOG_CREDENTIAL = "credential";

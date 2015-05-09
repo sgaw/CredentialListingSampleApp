@@ -1,12 +1,9 @@
-package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
+package com.playground.sgaw.credentialsample.credentiallistingsampleapp.model;
 
 import android.content.Context;
-import android.gesture.Prediction;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Collection of login credentials for global listing.

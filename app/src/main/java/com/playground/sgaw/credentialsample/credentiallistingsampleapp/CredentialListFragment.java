@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.CredentialAgency;
+
 /**
  * Fragment for viewing a listing of login credentials.
  */
