@@ -55,7 +55,7 @@ public class CredentialListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_credential_list, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.listing_view);
 
-        LinearLayoutManager layoutManager;
+        LinearLayoutManager layoutManager = null;
         if (getArguments().getBoolean(EXTRA_SHOWS_GRID)) {
             Log.i(TAG, "GridLayoutManager");
             layoutManager = new GridLayoutManager(getActivity(), GRID_SPAN);
@@ -63,6 +63,7 @@ public class CredentialListFragment extends Fragment {
             Log.i(TAG, "LinearLayoutManager");
             layoutManager = new LinearLayoutManager(getActivity());
         }
+
         recyclerView.setLayoutManager(layoutManager);
 
         RecyclerView.Adapter adapter = new CredentialListAdapter(

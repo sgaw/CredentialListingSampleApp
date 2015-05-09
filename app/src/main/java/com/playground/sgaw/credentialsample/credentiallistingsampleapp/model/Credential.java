@@ -2,6 +2,8 @@ package com.playground.sgaw.credentialsample.credentiallistingsampleapp.model;
 
 import android.graphics.Bitmap;
 
+import com.google.common.base.Predicate;
+
 /**
  * Represents the credentials for a login to an account on a specified domain.
  */
@@ -10,6 +12,15 @@ public class Credential {
     private final static String DEFAULT_USERNAME = "test_user@fakedomain.com";
     private final String domain;
     private final Bitmap icon;
+
+    public static Predicate<Credential> containsPattern(final String pattern) {
+        return new Predicate<Credential>() {
+            @Override
+            public boolean apply(Credential input) {
+                return input.getDomain().contains(pattern);
+            }
+        };
+    }
 
     public Credential(int id, String domain) {
         this.mId = id;
