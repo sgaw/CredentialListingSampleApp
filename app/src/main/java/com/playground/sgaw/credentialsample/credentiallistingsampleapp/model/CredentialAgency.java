@@ -40,10 +40,6 @@ public class CredentialAgency {
         }
         mOriginalCredentials = builder.build();
         mDisplayedCredentials = Lists.newArrayList(mOriginalCredentials);
-
-        // TODO(sgaw): Make this part of a search button result
-        mDisplayedCredentials = Lists.newArrayList(Collections2.filter(mOriginalCredentials,
-                Credential.containsPattern("5")));
     }
 
     // Singleton initialization and retrieval.
@@ -67,5 +63,18 @@ public class CredentialAgency {
     public Credential getCredential(int position) {
         Log.i(TAG, String.format("getCredential(%d)", position));
         return mDisplayedCredentials.get(position);
+    }
+
+    public void filter(String pattern) {
+        if (pattern == null || pattern.isEmpty()) {
+            restore();
+        } else {
+            mDisplayedCredentials = Lists.newArrayList(Collections2.filter(mOriginalCredentials,
+                    Credential.containsPattern(pattern)));
+        }
+    }
+
+    public void restore() {
+        mDisplayedCredentials = Lists.newArrayList(mOriginalCredentials);
     }
 }

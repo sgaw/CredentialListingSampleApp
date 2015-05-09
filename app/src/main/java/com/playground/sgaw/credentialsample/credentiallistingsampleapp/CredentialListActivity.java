@@ -1,12 +1,18 @@
 package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
 
@@ -22,7 +28,7 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
             boolean doGridLayout = (findViewById(R.id.detailContainer) != null);
 
             CredentialListFragment fragment = CredentialListFragment.newInstance(doGridLayout);
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, fragment)
                     .commit();
         }
@@ -41,14 +47,28 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()) {
+            case R.id.menu_item_search:
+                onSearchRequested();
+                return true;
+            case R.id.menu_item_clear:
+                CredentialListFragment fragment = (CredentialListFragment)
+                        getFragmentManager().findFragmentById(R.id.container);
+                fragment.restoreList();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onNewIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            CredentialListFragment fragment = (CredentialListFragment)
+                    getFragmentManager().findFragmentById(R.id.container);
+
+            fragment.filterList(intent.getStringExtra(SearchManager.QUERY));
+        }
     }
 
     /**
