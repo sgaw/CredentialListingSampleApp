@@ -7,13 +7,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class CredentialListActivity extends ActionBarActivity implements CredentialListener {
+public class CredentialListActivity extends ActionBarActivity implements CredentialClickListener {
     private static final String TAG = "CredentialListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(R.layout.activity_credentiallisting);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new CredentialListFragment())
@@ -54,7 +54,13 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
     public void onCredentialSelected(Credential credential) {
         Log.i(TAG, String.format("onCredentialSelected(%s)", credential));
         // TODO(sgaw): Add check to see if we are tablet or phone
-        Intent i = new Intent(this, CredentialActivity.class);
-        startActivity(i);
+        if (findViewById(R.id.detailContainer) == null) {
+            Log.i(TAG, "Detected phone");
+            Intent i = new Intent(this, CredentialActivity.class);
+            i.putExtra(CredentialFragment.EXTRA_CREDENTIAL_ID, credential.getId());
+            startActivity(i);
+        } else {
+            Log.i(TAG, "Detected tablet");
+        }
     }
 }

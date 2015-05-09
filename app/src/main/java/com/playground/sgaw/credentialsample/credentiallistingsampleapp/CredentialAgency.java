@@ -29,7 +29,7 @@ public class CredentialAgency {
         Log.i(TAG, "init()");
         // TODO(sgaw): Fetch login credentials from file.
         for (int i = 0; i < 100; i++) {
-            mCredentials.add(new Credential(String.format("example-%d.com", i)));
+            mCredentials.add(new Credential(i, String.format("example-%d.com", i)));
         }
     }
 
@@ -47,11 +47,15 @@ public class CredentialAgency {
         return mCredentials;
     }
 
+    public Credential getCredentialWithId(int id) {
+        return mCredentials.get(id);
+    }
+
+    // TODO(sgaw): Track a current credential collection view that uses Collections2.filter(.., Predicate)
+    // Need to install Guava
     public Credential getCredential(int position) {
         Log.i(TAG, String.format("getCredential(%d)", position));
         return mCredentials.get(position);
     }
 
-    // TODO(sgaw): Track a current credential collection view that uses Collections2.filter(.., Predicate)
-    // Need to install Guava
 }

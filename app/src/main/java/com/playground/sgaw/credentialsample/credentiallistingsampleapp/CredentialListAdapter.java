@@ -14,19 +14,19 @@ import android.widget.TextView;
 public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAdapter.ViewHolder> {
     private static final String TAG = "CredentialListAdapter";
     private final CredentialAgency mCredentialAgency;
-    private final CredentialListener mCredentialListener;
+    private final CredentialClickListener mCredentialClickListener;
 
     public CredentialListAdapter(CredentialAgency credentialAgency,
-                                 CredentialListener credentialListener) {
+                                 CredentialClickListener credentialClickListener) {
         this.mCredentialAgency = credentialAgency;
-        this.mCredentialListener = credentialListener;
+        this.mCredentialClickListener = credentialClickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_credential, parent, false);
-        ViewHolder vh = new ViewHolder(v, mCredentialListener);
+        ViewHolder vh = new ViewHolder(v, mCredentialClickListener);
         return vh;
     }
 
@@ -50,16 +50,16 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
         private final ImageView mIconImageView;
 
         private Credential mCredential;
-        private CredentialListener mCredentialListener;
+        private CredentialClickListener mCredentialClickListener;
 
-        public ViewHolder(View v, CredentialListener credentialListener) {
+        public ViewHolder(View v, CredentialClickListener credentialClickListener) {
             super(v);
 
             mDomainTextView = (TextView) v.findViewById(R.id.domain);
             mUsernameTextView = (TextView) v.findViewById(R.id.username);
             mIconImageView = (ImageView) v.findViewById(R.id.icon);
             mCredential = null;
-            mCredentialListener = credentialListener;
+            mCredentialClickListener = credentialClickListener;
 
             v.setOnClickListener(this);
         }
@@ -81,7 +81,7 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
         public void onClick(View v) {
             Log.i(TAG, "onClick(...)");
             if (mCredential != null) {
-                mCredentialListener.onCredentialSelected(mCredential);
+                mCredentialClickListener.onCredentialSelected(mCredential);
             }
         }
     }

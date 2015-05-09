@@ -38,7 +38,7 @@ public class CredentialListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         RecyclerView.Adapter adapter = new CredentialListAdapter(
-                CredentialAgency.get(getActivity()), (CredentialListener) getActivity());
+                CredentialAgency.get(getActivity()), (CredentialClickListener) getActivity());
         recyclerView.setAdapter(adapter);
         return rootView;
     }
