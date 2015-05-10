@@ -3,14 +3,11 @@ package com.playground.sgaw.credentialsample.credentiallistingsampleapp.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 /**
  * Collection of login credentials for global listing.
@@ -70,7 +67,7 @@ public class CredentialAgency {
             restore();
         } else {
             mDisplayedCredentials = Lists.newArrayList(Collections2.filter(mOriginalCredentials,
-                    Credential.containsPattern(pattern)));
+                    Credential.newPredicate(pattern)));
         }
     }
 

@@ -100,8 +100,8 @@ public class CredentialListFragment extends Fragment {
      *
      * @param query Query pattern for matching credential domains.
      */
-    public void filterList(String query) {
-        Log.i(TAG, String.format("filterList(%s)", query));
+    public void filterListing(String query) {
+        Log.i(TAG, String.format("filterListing(%s)", query));
         CredentialAgency.get(getActivity()).filter(query);
         mAdapter.notifyDataSetChanged();
     }
@@ -109,8 +109,8 @@ public class CredentialListFragment extends Fragment {
     /**
      * Replace the currently displayed credentials to the entire corpus of login credentials.
      */
-    public void restoreList() {
-        Log.i(TAG, "restoreList()");
+    public void restoreListing() {
+        Log.i(TAG, "restoreListing()");
         CredentialAgency.get(getActivity()).restore();
         mAdapter.notifyDataSetChanged();
     }

@@ -13,7 +13,14 @@ public class Credential {
     private final String domain;
     private final Bitmap icon;
 
-    public static Predicate<Credential> containsPattern(final String pattern) {
+    /**
+     * Predicate to determine if the domain of a credential contains the specified string.
+     *
+     * @param pattern pattern to match in the domain of the credential.  Assumes the string
+     *                is not a regular expression.
+     * @return Predicate that is true only when the credential contains the specified string.
+     */
+    public static Predicate<Credential> newPredicate(final String pattern) {
         return new Predicate<Credential>() {
             @Override
             public boolean apply(Credential input) {

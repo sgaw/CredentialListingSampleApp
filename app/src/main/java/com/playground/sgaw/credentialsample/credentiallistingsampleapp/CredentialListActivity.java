@@ -1,18 +1,13 @@
 package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
 
@@ -54,7 +49,7 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
             case R.id.menu_item_clear:
                 CredentialListFragment fragment = (CredentialListFragment)
                         getFragmentManager().findFragmentById(R.id.container);
-                fragment.restoreList();
+                fragment.restoreListing();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -67,7 +62,7 @@ public class CredentialListActivity extends ActionBarActivity implements Credent
             CredentialListFragment fragment = (CredentialListFragment)
                     getFragmentManager().findFragmentById(R.id.container);
 
-            fragment.filterList(intent.getStringExtra(SearchManager.QUERY));
+            fragment.filterListing(intent.getStringExtra(SearchManager.QUERY));
         }
     }
 
