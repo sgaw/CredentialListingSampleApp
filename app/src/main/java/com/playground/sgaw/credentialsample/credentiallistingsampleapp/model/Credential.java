@@ -21,9 +21,9 @@ public class Credential {
 
 
     /**
-     * Predicate to determine if the mDomain of a credential contains the specified string.
+     * Predicate to determine if the domain of a credential contains the specified string.
      *
-     * @param pattern pattern to match in the mDomain of the credential.  Assumes the string
+     * @param pattern pattern to match in the domain of the credential.  Assumes the string
      *                is not a regular expression.
      * @return Predicate that is true only when the credential contains the specified string.
      */

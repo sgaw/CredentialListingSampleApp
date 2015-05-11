@@ -17,12 +17,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        ignore 'InconsistentLayout'
+    }
 }
 
 dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:recyclerview-v7:21.0.0'
     compile 'com.android.support:gridlayout-v7:21.0.0'
-    compile group: 'com.google.guava', name: 'guava', version: '12.0'
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'com.mcxiaoke.volley:library:1.0.15'
 }
