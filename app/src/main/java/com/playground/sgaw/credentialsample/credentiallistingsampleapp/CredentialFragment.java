@@ -15,7 +15,8 @@ import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Cre
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.tools.ContentFetcher;
 
 /**
- * Fragment for viewing the details of a login credential.
+ * Fragment for viewing the details of a login credential.  Only displays as a dialog
+ * when the fragment argument sets the configuration.
  */
 public class CredentialFragment extends DialogFragment {
     public static final String EXTRA_CREDENTIAL_ID =
@@ -31,6 +32,14 @@ public class CredentialFragment extends DialogFragment {
     public CredentialFragment() {
     }
 
+    /**
+     * Return a new credential fragment with arguments set for how to display (as dialog or
+     * embedded) and which credential's contents to show.
+     *
+     * @param credential to display
+     * @param showsDialog if true.  Displays within view container otherwise (embedded).
+     * @return
+     */
     public static CredentialFragment newInstance(Credential credential, boolean showsDialog) {
         Log.i(TAG, String.format("newInstance(%s, %b)", credential.toString(), showsDialog));
         CredentialFragment credentialFragment = new CredentialFragment();
@@ -65,8 +74,9 @@ public class CredentialFragment extends DialogFragment {
         setShowsDialog(mShowsDialog);
         Log.i(TAG, String.format("setShowsDialog(%b)", mShowsDialog));
 
-        // TODO(sgaw): This all seems redundant to the RecyclerView.ViewHolder but there
-        // doesn't seem to be a shared parent ViewHolder...
+        // TODO(sgaw): Ideally make a custom view so that we can avoid code redundant to the
+        // RecyclerView.ViewHolder (No shared parent ViewHolder?).  Also would avoid
+        // redundant layout files.
         TextView textView = (TextView) rootView.findViewById(R.id.domain);
         textView.setText(mCredential.getDomain());
 

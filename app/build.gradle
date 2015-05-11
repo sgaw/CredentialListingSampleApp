@@ -21,6 +21,15 @@ android {
     lintOptions {
         ignore 'InconsistentLayout'
     }
+
+    signingConfigs {
+        release {
+            storeFile file("android.jks")
+            storePassword System.getenv("KSTOREPWD")
+            keyAlias "CredentialListingApp"
+            keyPassword System.getenv("KEYPWD")
+        }
+    }
 }
 
 dependencies {

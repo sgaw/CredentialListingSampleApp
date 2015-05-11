@@ -11,11 +11,17 @@ import android.view.MenuItem;
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.CredentialAgency;
 
-
+/**
+ * Activity for representation of a single credential.  Spawns a {@link CredentialFragment}.
+ */
 public class CredentialActivity extends Activity {
 
     private static final String TAG = "CredentialActivity";
 
+    /**
+     * Setup a single credential fragment.  Fetch the credential to display via the activity Intent.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +33,8 @@ public class CredentialActivity extends Activity {
 
         Fragment fragment = fragmentManager.findFragmentById(R.id.container);
 
-        // TODO(sgaw): How is this check different from just defaulting to the code that's generated
-        // for adding to the fragment manager in all cases?  is this because of reuse?
+        // TODO(sgaw): Is this the same as CredentialActivity? savedInstanceState == null
+        // when fragment == null?
         if (fragment == null) {
             int id = getIntent().getIntExtra(CredentialFragment.EXTRA_CREDENTIAL_ID, -1);
 
@@ -55,16 +61,6 @@ public class CredentialActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -45,6 +45,9 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
         return mCredentialAgency.size();
     }
 
+    /**
+     * Update the view when the underlying listing corpus is initialized.
+     */
     @Override
     public void onCorpusDownloaded() {
         Log.i(TAG, "onCorpusDownloaded()");
@@ -72,14 +75,15 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
 
             mIconImageView.setDefaultImageResId(android.R.drawable.ic_menu_close_clear_cancel);
 
-
             mCredential = null;
             mCredentialClickListener = credentialClickListener;
 
             v.setOnClickListener(this);
         }
 
-        // Each time we change the credential, update the view's content.
+        /**
+         * Update the view's content when the underlying data has changed to another credential.
+         */
         public void bindCredential(Credential credential) {
             Log.i(TAG, String.format("bindCredential(%s)", credential.toString()));
             mCredential = credential;
@@ -91,6 +95,10 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
                     ContentFetcher.get(mIconImageView.getContext()).getImageLoader());
         }
 
+        /**
+         * Notify listeners that a specified credential has been selected.
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             Log.i(TAG, "onClick(...)");

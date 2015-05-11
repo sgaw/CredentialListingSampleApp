@@ -54,11 +54,17 @@ public class ContentFetcher {
                         Log.e(TAG, String.format("Unable to download corpus %s", error.toString()));
                     }
                 });
+        request.setTag(TAG);
         mRequestQueue.add(request);
     }
 
     public ImageLoader getImageLoader() {
         return mImageLoader;
+    }
+
+    public void cancelRequests(Object tag) {
+        mRequestQueue.cancelAll(TAG);
+        // TODO(sgaw): To cancel outstanding ImageLoader cancel requests?
     }
 
 }

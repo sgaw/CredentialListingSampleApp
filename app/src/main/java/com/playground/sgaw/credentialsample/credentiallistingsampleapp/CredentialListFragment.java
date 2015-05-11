@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.CredentialAgency;
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.tools.ContentFetcher;
 
 /**
  * Fragment for viewing a listing of login credentials.
@@ -30,6 +31,7 @@ public class CredentialListFragment extends Fragment {
     private static final String TAG = "CredentialListFragment";
     private static final int GRID_SPAN = 2;
 
+    private CredentialClickListener mCredentialClickListener = null;
     private CredentialListAdapter mAdapter = null;
 
     public static CredentialListFragment newInstance(boolean doGridLayout) {
@@ -56,8 +58,30 @@ public class CredentialListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO(sgaw): Is this necessary if the ImageLoader is a singleton?  In-flight requests
+        // are not cancelled until the fragment is cancelled.
+        setRetainInstance(true);
     }
 
+    /**
+     * Cancel outstanding content fetches.
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        ContentFetcher.get(getActivity()).cancelRequests(this);
+    }
+
+
+    /**
+     * Lay out the fragment view as a grid or list depending on the fragment argument specification.
+     * Couple view to view adapter and credential list model.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,25 +101,11 @@ public class CredentialListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         CredentialAgency credentialAgency = CredentialAgency.get(getActivity());
-        mAdapter = new CredentialListAdapter(credentialAgency,
-                (CredentialClickListener) getActivity());
+        mAdapter = new CredentialListAdapter(credentialAgency, mCredentialClickListener);
         recyclerView.setAdapter(mAdapter);
 
         credentialAgency.init(mAdapter);
         return rootView;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_search:
-                getActivity().onSearchRequested();
-                return true;
-            case R.id.menu_item_clear:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     /**
@@ -116,5 +126,10 @@ public class CredentialListFragment extends Fragment {
         Log.i(TAG, "restoreListing()");
         CredentialAgency.get(getActivity()).restore();
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void setCredentialClickListener(CredentialClickListener credentialClickListener) {
+        Log.i(TAG, "setCredentialClickListener(...)");
+        mCredentialClickListener = credentialClickListener;
     }
 }

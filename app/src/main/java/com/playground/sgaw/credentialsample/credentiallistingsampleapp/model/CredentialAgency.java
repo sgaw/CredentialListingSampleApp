@@ -12,7 +12,8 @@ import com.playground.sgaw.credentialsample.credentiallistingsampleapp.tools.Con
 import java.util.ArrayList;
 
 /**
- * Collection of login credentials for global listing.
+ * Collection of login credentials for global listing.  Current state of the listing depends
+ * on filtering (ex. for search).
  *
  * Persists for the application lifecycle (independent of activities, fragments, etc.)
  */
@@ -97,6 +98,11 @@ public class CredentialAgency {
         return mDisplayedCredentials.get(position);
     }
 
+    /**
+     * Update state based on which credentials match the specified pattern.
+     *
+     * @param pattern to match selected credentials to.
+     */
     public void filter(String pattern) {
         if (pattern == null || pattern.isEmpty()) {
             restore();
@@ -106,6 +112,9 @@ public class CredentialAgency {
         }
     }
 
+    /**
+     * Restore state to the original corpus of listings.
+     */
     public void restore() {
         mDisplayedCredentials = Lists.newArrayList(mOriginalCredentials);
     }
