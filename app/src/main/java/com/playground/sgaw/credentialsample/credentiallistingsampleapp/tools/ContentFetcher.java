@@ -17,8 +17,6 @@ import com.android.volley.toolbox.Volley;
 public class ContentFetcher {
     private static final String CORPUS_URL =
             "https://dl.dropboxusercontent.com/u/2532281/listing.txt";
-    // TODO(sgaw): update the cache size to be based on the view size.
-    private static int CACHE_SIZE = 20;
     private static String TAG = "ContentFetcher";
     private static ContentFetcher sContentFetcher = null;
 
@@ -40,7 +38,7 @@ public class ContentFetcher {
 
     private ContentFetcher(final Context context) {
         mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
-        mImageLoader = new ImageLoader(mRequestQueue, new DomainBitmapCache(context, CACHE_SIZE));
+        mImageLoader = new ImageLoader(mRequestQueue, new DomainBitmapCache(context));
     }
 
     /**
