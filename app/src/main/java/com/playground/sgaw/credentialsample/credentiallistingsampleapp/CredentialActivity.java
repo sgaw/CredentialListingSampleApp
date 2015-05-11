@@ -19,6 +19,7 @@ public class CredentialActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate(...)");
         setContentView(R.layout.activity_fragment);
 
 
@@ -36,6 +37,7 @@ public class CredentialActivity extends Activity {
             }
 
             Credential credential = CredentialAgency.get(this).getCredentialWithId(id);
+            Log.v(TAG, String.format("credential = %s", credential));
 
             fragmentManager.beginTransaction()
                     .add(R.id.container, CredentialFragment.newInstance(credential, false))

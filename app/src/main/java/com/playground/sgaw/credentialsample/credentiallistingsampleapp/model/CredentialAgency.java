@@ -56,19 +56,19 @@ public class CredentialAgency {
         ContentFetcher.get(mAppContext).requestListingCorpus(new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i(TAG, "Listener.onResponse()");
+                Log.i(TAG, "Listener.onResponse(...)");
                 ImmutableList.Builder<Credential> builder = ImmutableList.builder();
 
                 // BUGBUG(sgaw): Mutiple calls to init will result in the old credential ids
                 // will accessing new credential instances.
                 int id = 0;
                 for (String filename : response.split("\n")) {
-                    Log.v(TAG, String.format("Considering file: %s", filename));
                     String domain = Credential.decodeDomain(filename.trim());
                     // There are duplicate domains listed
                     if (!domain.endsWith(IGNORE_SUFFIX)) {
                         builder.add(new Credential(id, filename.trim(), domain));
                         Log.v(TAG, String.format("Added domain: %s", domain));
+                        id++;
                     }
                 }
 
@@ -79,6 +79,18 @@ public class CredentialAgency {
             }
         });
     }
+
+    /*
+    public void init(ListingCorpusListener listener) {
+        Log.i(TAG, "init()");
+        ImmutableList.Builder<Credential> builder = ImmutableList.builder();
+        builder.add(new Credential(0, "mozy_com.png", "mozy.com"));
+        builder.add(new Credential(1, "nba_com.png", "nba.com"));
+        builder.add(new Credential(2, "sap_com.png", "sap.com"));
+        mOriginalCredentials = builder.build();
+        mDisplayedCredentials = Lists.newArrayList(mOriginalCredentials);
+        listener.onCorpusDownloaded();
+    }*/
 
 
 
