@@ -1,4 +1,4 @@
-package com.playground.sgaw.credentialsample.credentiallistingsampleapp;
+package com.playground.sgaw.credentialsample.credentiallistingsampleapp.tools;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -16,9 +17,13 @@ import com.android.volley.toolbox.Volley;
 public class ContentFetcher {
     private static final String CORPUS_URL =
             "https://dl.dropboxusercontent.com/u/2532281/listing.txt";
+    // TODO(sgaw): update the cache size to be based on the view size.
+    private static int CACHE_SIZE = 20;
     private static String TAG = "ContentFetcher";
     private static ContentFetcher sContentFetcher = null;
+
     private RequestQueue mRequestQueue = null;
+    private ImageLoader mImageLoader = null;
 
     /**
      * Getter for content fetcher client.
@@ -33,10 +38,16 @@ public class ContentFetcher {
         return sContentFetcher;
     }
 
-    private ContentFetcher(Context context) {
+    private ContentFetcher(final Context context) {
         mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        mImageLoader = new ImageLoader(mRequestQueue, new DomainBitmapCache(context, CACHE_SIZE));
     }
 
+    /**
+     * Initiate a request to download the corpus of credential listings.
+     *
+     * @param responseListener to notify when corpus download and processing is complete.
+     */
     public void requestListingCorpus(Response.Listener<String> responseListener) {
         StringRequest request = new StringRequest(Request.Method.GET, CORPUS_URL, responseListener,
                 new Response.ErrorListener() {
@@ -47,4 +58,9 @@ public class ContentFetcher {
                 });
         mRequestQueue.add(request);
     }
+
+    public ImageLoader getImageLoader() {
+        return mImageLoader;
+    }
+
 }

@@ -7,7 +7,7 @@ import com.android.volley.Response;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.playground.sgaw.credentialsample.credentiallistingsampleapp.ContentFetcher;
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.tools.ContentFetcher;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class CredentialAgency {
     private static final String TAG = "CredentialAgency";
     private static final String IGNORE_SUFFIX = "@2x";
-    private static final String ICON_SUFFIX = ".png";
     private static CredentialAgency sCredentialAgency;
 
     private Context mAppContext; // Access to resources, storage, etc.
@@ -65,10 +64,10 @@ public class CredentialAgency {
                 int id = 0;
                 for (String filename : response.split("\n")) {
                     Log.v(TAG, String.format("Considering file: %s", filename));
-                    String domain = iconFilenameToDomain(filename.trim());
+                    String domain = Credential.decodeDomain(filename.trim());
                     // There are duplicate domains listed
                     if (!domain.endsWith(IGNORE_SUFFIX)) {
-                        builder.add(new Credential(id, domain));
+                        builder.add(new Credential(id, filename.trim(), domain));
                         Log.v(TAG, String.format("Added domain: %s", domain));
                     }
                 }
@@ -81,26 +80,7 @@ public class CredentialAgency {
         });
     }
 
-    /**
-     * Returns the icon's filename (format {site}_co_uk.png) with the domain {site}.co_uk
-     *
-     * @param icon_filename
-     * @return Decoded domain name
-     */
-    private String iconFilenameToDomain(String icon_filename) {
-        Log.i(TAG, String.format("iconFilenameToDomain(%s)", icon_filename));
-        StringBuffer buffer = new StringBuffer(icon_filename);
-        buffer.replace(buffer.lastIndexOf(ICON_SUFFIX), icon_filename.length(), "");
 
-        // Decode domains by replacing underscores with periods
-        for (int i = 0; i < buffer.length(); i++) {
-            if (buffer.charAt(i) == '_') {
-                buffer.setCharAt(i, '.');
-            }
-        }
-        Log.v(TAG, String.format("domain transformed to %s", buffer.toString()));
-        return buffer.toString();
-    }
 
     /**
      * Returns the number of elements in the currently displayed collections (after filtering).

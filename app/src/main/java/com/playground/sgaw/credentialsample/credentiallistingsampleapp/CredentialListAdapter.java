@@ -5,10 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.playground.sgaw.credentialsample.credentiallistingsampleapp.tools.ContentFetcher;
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.CredentialAgency;
 
@@ -86,6 +86,9 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
 
             mDomainTextView.setText(mCredential.getDomain());
             mUsernameTextView.setText(mCredential.getUsername());
+            Log.v(TAG, mCredential.getIconUrl());
+            mIconImageView.setImageUrl(mCredential.getIconUrl(),
+                    ContentFetcher.get(mIconImageView.getContext()).getImageLoader());
         }
 
         @Override
