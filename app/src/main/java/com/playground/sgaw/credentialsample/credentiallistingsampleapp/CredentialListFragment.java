@@ -30,7 +30,7 @@ public class CredentialListFragment extends Fragment {
     private static final String TAG = "CredentialListFragment";
     private static final int GRID_SPAN = 2;
 
-    private RecyclerView.Adapter mAdapter = null;
+    private CredentialListAdapter mAdapter = null;
 
     public static CredentialListFragment newInstance(boolean doGridLayout) {
         CredentialListFragment fragment = new CredentialListFragment();
@@ -76,9 +76,12 @@ public class CredentialListFragment extends Fragment {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new CredentialListAdapter(CredentialAgency.get(getActivity()),
+        CredentialAgency credentialAgency = CredentialAgency.get(getActivity());
+        mAdapter = new CredentialListAdapter(credentialAgency,
                 (CredentialClickListener) getActivity());
         recyclerView.setAdapter(mAdapter);
+
+        credentialAgency.init(mAdapter);
         return rootView;
     }
 

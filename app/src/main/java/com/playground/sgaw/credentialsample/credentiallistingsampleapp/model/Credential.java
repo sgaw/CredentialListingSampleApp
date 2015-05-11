@@ -11,7 +11,6 @@ public class Credential {
     private final int mId; // Make this a UUID? simpler for random access this way.
     private final static String DEFAULT_USERNAME = "test_user@fakedomain.com";
     private final String domain;
-    private final Bitmap icon;
 
     /**
      * Predicate to determine if the domain of a credential contains the specified string.
@@ -33,7 +32,6 @@ public class Credential {
         this.mId = id;
         // We can futz login info for now since we don't actually need it for the example.
         this.domain = domain;
-        this.icon = null;
     }
 
     public String getDomain() {
@@ -42,14 +40,6 @@ public class Credential {
 
     public String getUsername() {
         return DEFAULT_USERNAME;
-    }
-
-    public boolean hasIcon() {
-        return icon != null;
-    }
-
-    public Bitmap getIcon() {
-        return icon;
     }
 
     @Override

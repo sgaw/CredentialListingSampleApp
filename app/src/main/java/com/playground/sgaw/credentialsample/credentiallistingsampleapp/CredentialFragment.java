@@ -69,11 +69,6 @@ public class CredentialFragment extends DialogFragment {
         textView = (TextView) rootView.findViewById(R.id.username);
         textView.setText(mCredential.getUsername());
 
-        if (mCredential.hasIcon()) {
-            ImageView imageView = (ImageView) rootView.findViewById(R.id.icon);
-            imageView.setImageBitmap(mCredential.getIcon());
-        }
-
         return rootView;
     }
 }

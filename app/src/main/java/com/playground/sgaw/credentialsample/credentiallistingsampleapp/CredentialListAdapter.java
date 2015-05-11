@@ -8,13 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.Credential;
 import com.playground.sgaw.credentialsample.credentiallistingsampleapp.model.CredentialAgency;
 
 /**
  * ViewAdapter for managing the user's login credentials
  */
-public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAdapter.ViewHolder> {
+public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAdapter.ViewHolder>
+        implements CredentialAgency.ListingCorpusListener {
     private static final String TAG = "CredentialListAdapter";
     private final CredentialAgency mCredentialAgency;
     private final CredentialClickListener mCredentialClickListener;
@@ -40,7 +42,13 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
 
     @Override
     public int getItemCount() {
-        return mCredentialAgency.getCredentials().size();
+        return mCredentialAgency.size();
+    }
+
+    @Override
+    public void onCorpusDownloaded() {
+        Log.i(TAG, "onCorpusDownloaded()");
+        notifyDataSetChanged();
     }
 
     /**
@@ -50,7 +58,7 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
         private static final String TAG = "Adapter.ViewHolder";
         private final TextView mDomainTextView;
         private final TextView mUsernameTextView;
-        private final ImageView mIconImageView;
+        private final NetworkImageView mIconImageView;
 
         private Credential mCredential;
         private CredentialClickListener mCredentialClickListener;
@@ -60,7 +68,11 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
 
             mDomainTextView = (TextView) v.findViewById(R.id.domain);
             mUsernameTextView = (TextView) v.findViewById(R.id.username);
-            mIconImageView = (ImageView) v.findViewById(R.id.icon);
+            mIconImageView = (NetworkImageView) v.findViewById(R.id.icon);
+
+            mIconImageView.setDefaultImageResId(android.R.drawable.ic_menu_close_clear_cancel);
+
+
             mCredential = null;
             mCredentialClickListener = credentialClickListener;
 
@@ -74,10 +86,6 @@ public class CredentialListAdapter extends RecyclerView.Adapter<CredentialListAd
 
             mDomainTextView.setText(mCredential.getDomain());
             mUsernameTextView.setText(mCredential.getUsername());
-
-            if (mCredential.hasIcon()) {
-                mIconImageView.setImageBitmap(mCredential.getIcon());
-            }
         }
 
         @Override

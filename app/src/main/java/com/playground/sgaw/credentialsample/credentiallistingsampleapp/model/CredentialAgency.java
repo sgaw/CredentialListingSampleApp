@@ -23,12 +23,30 @@ public class CredentialAgency {
     private ArrayList<Credential> mDisplayedCredentials;
     private ImmutableList<Credential> mOriginalCredentials;
 
-    private CredentialAgency(Context context) {
-        mAppContext = context;
-        mOriginalCredentials = null;
+    /**
+     * Listener for completion of credential agency initialization.  Corpus for credentials
+     * are fetched remotely.
+     */
+    public interface ListingCorpusListener {
+        void onCorpusDownloaded();
     }
 
-    public void init() {
+
+    // Singleton initialization and retrieval.
+    public static CredentialAgency get(Context c) {
+        if (sCredentialAgency == null) {
+            sCredentialAgency = new CredentialAgency(c.getApplicationContext());
+        }
+        return sCredentialAgency;
+    }
+
+    private CredentialAgency(Context context) {
+        mAppContext = context;
+        mOriginalCredentials = ImmutableList.of();
+        mDisplayedCredentials = Lists.newArrayList();
+    }
+
+    public void init(ListingCorpusListener listener) {
         Log.i(TAG, "init()");
         ImmutableList.Builder<Credential> builder = ImmutableList.builder();
         // TODO(sgaw): Fetch login credentials from file.
@@ -37,20 +55,15 @@ public class CredentialAgency {
         }
         mOriginalCredentials = builder.build();
         mDisplayedCredentials = Lists.newArrayList(mOriginalCredentials);
+        listener.onCorpusDownloaded();
     }
 
-    // Singleton initialization and retrieval.
-    public static CredentialAgency get(Context c) {
-        if (sCredentialAgency == null) {
-            sCredentialAgency = new CredentialAgency(c.getApplicationContext());
-
-            sCredentialAgency.init();
-        }
-        return sCredentialAgency;
-    }
-
-    public ArrayList<Credential> getCredentials() {
-        return mDisplayedCredentials;
+    /**
+     * Returns the number of elements in the currently displayed collections (after filtering).
+     * @return
+     */
+    public int size() {
+        return mDisplayedCredentials.size();
     }
 
     public Credential getCredentialWithId(int id) {
